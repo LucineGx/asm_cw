@@ -12,7 +12,7 @@
 
 .PHONY: all, clean, fclean, re
 
-CC = clang
+CC = gcc
 CFLAGS = -g
 NAME = ../asm
 

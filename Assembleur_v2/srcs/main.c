@@ -12,31 +12,34 @@
 
 #include "../includes/asm.h"
 
-static char	*read_champ(char *file_name)
+static char	**read_champ(char *file_name)
 {
-	char	*ret;
+	char	**ret;
 	char	buf;
 	int		fd;
 	int		i;
+	int		gnl_ret;
 
 	if ((fd = open(file_name, O_RDONLY)) == -1)
 		error("invalid file\n"); //erreur a gerer
 	i = 0;
-	ret = NULL;
-	while (read(fd, &buf, 1) > 0)
+	if (!(ret = malloc(sizeof(char*) * 2)))
+		error("kaputt malloc");
+	ret[0] = NULL;
+	ret[1] = NULL;
+	while ((gnl_ret = get_next_line(fd, &(ret[i]))) > 0)
 	{
-		if (!(ret = realloc(ret, sizeof(char) * (i + 2))))
+		if (!(ret = realloc(ret, sizeof(char*) * (i + 3))))
 			return (NULL); //erreur a gerer
-		ret[i] = buf;
-		ret[++i] = '\0';
+		ret[++i] = NULL;
 	}
-	if (read(fd, &buf, 1) == -1)
+	if (gnl_ret == -1)
 		return (NULL); //erreur a gerer
 	close(fd);
 	return (ret);
 }
 
-static int	create_cor_file(char *file_name, char *input)
+static int	create_cor_file(char *file_name, char **input)
 {
 	char	*tmp;
 	int		size;
@@ -60,13 +63,19 @@ static int	create_cor_file(char *file_name, char *input)
 			return (fd);
 		}
 	return (-1);
+}
 
+void		init_champ(t_champ *new)
+{
+	(*new).name = NULL;
+	(*new).comment = 0;
 }
 
 int			main(int argc, char **argv)
 {
 	int		i;
-	char	*input;
+	char	**input;
+	t_champ	champ;
 
 	i = 1;
 	if (argc < 2)
@@ -74,8 +83,9 @@ int			main(int argc, char **argv)
 	while (i != argc)
 	{
 		input = read_champ(argv[i]);
-		manage_header(create_cor_file(argv[i], input), input);
-		free(input);
+		init_champ(&champ);
+		manage_header(create_cor_file(argv[i], input), input, &champ);
+		free_tab(input);
 		i++;
 	}
 	return (0);

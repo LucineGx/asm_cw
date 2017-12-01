@@ -12,28 +12,26 @@
 
 #include "../includes/asm.h"
 
-/*
-** je vais remplacer cette string longue comme la mort et immaniable en un joli
-** tableau finalement.
-*/
-
-void	check_comment(int fd, char *input)
+void	check_comment(int fd, char *input, t_champ *champ)
 {
 	int		i;
 	int		count;
 	char	zero;
 
-	if (ft_strncmp(input, ".comment \"", 10) != 0)
+	if (ft_strncmp(input, ".comment", 8) != 0)
 		return ; //erreur a gerer
-	i = 9;
+	if ((*champ).comment != 0)
+		return ; //ereur a gerer
+	i = 8;
+	while (ft_iswhitespace(input[i]))
+		i++;
 	count = 0;
-	while (input[++i] != '\"' && count <= COMMENT_LENGTH)
+	while (input[++i] != '\"' && count < COMMENT_LENGTH)
 	{
 		write(fd, &(input[i]), 1);
 		count++;
 	}
-	if (input[i + 1] != '\n')
-		return ; //erreur a gerer
+	(*champ).comment = 1;
 	zero = 0;
 	while (count <= COMMENT_LENGTH)
 	{
@@ -42,23 +40,31 @@ void	check_comment(int fd, char *input)
 	}
 }
 
-void	check_name(int fd, char *input)
+/*
+** en haut et en bas:
+** manque la gestion d'erreur sur ce qui compose le reste de la ligne
+*/
+
+void	check_name(int fd, char *input, t_champ *champ)
 {
 	int		i;
 	int		count;
 	char	zero;
 
-	if (ft_strncmp(input, ".name \"", 7) != 0)
+	if (ft_strncmp(input, ".name", 5) != 0)
 		return ; //erreur a gerer
-	i = 6;
+	if ((*champ).name)
+		return ; //erreur a gerer
+	i = 5;
+	while (ft_iswhitespace(input[i]))
+		i++;
 	count = 0;
-	while (input[++i] != '\"' && count <= PROG_NAME_LENGTH)
+	while (input[++i] && input[i] != '\"' && count < PROG_NAME_LENGTH)
 	{
 		write(fd, &(input[i]), 1);
+		(*champ).name = ft_strjoinchar((*champ).name, input[i]);
 		count++;
 	}
-	if (input[i + 1] != '\n')
-		return ; //erreur a gerer
 	zero = 0;
 	while (count <= PROG_NAME_LENGTH)
 	{
@@ -67,18 +73,27 @@ void	check_name(int fd, char *input)
 	}
 }
 
-void	manage_header(int fd, char *input)
+void	manage_header(int fd, char **input, t_champ *champ)
 {
-	int magic ;
+	int	magic ;
+	int	i;
 
-	write(1, "ok0\n", 4);
 	if (fd == -1)
 		return ;
-	write(1, "ok1\n", 4);
 	magic = COREWAR_EXEC_MAGIC;
 	ft_bswap(&magic, sizeof(int));
 	write(fd, &magic, 4);
-	check_name(fd, input);
-	check_comment(fd, ft_strstr(input, ".comment"));
+	i = 0;
+	while (input[i] && (!(*champ).name || !(*champ).comment))
+	{
+		if (input[i][0] == '#')
+			i++;
+		else
+		{
+			check_name(fd, input[i], champ);
+			check_comment(fd, input[i], champ);
+			i++;
+		}
+	}
 	close(fd);
 }

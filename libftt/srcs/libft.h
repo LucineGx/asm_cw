@@ -21,7 +21,6 @@
 # include <stdarg.h>
 # include <wchar.h>
 # include "get_next_line.h"
-# include "ft_printf.h"
 
 void			*ft_memset(void	*b, int c, size_t len);
 void			ft_bzero(void *b, size_t len);
@@ -77,6 +76,8 @@ void			ft_putchar_fd(char c, int fd);
 void			ft_putstr_fd(char const *s, int fd);
 void			ft_putendl_fd(char const *s, int fd);
 void			ft_putnbr_fd(int n, int fd);
+char			*ft_strjoinchar(char *s, char c);
+int				ft_iswhitespace(char c);
 struct			s_list
 {
 	void			*content;

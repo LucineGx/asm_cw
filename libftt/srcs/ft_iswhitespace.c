@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   asm.h                                              :+:      :+:    :+:   */
+/*   ft_iswhitespace.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lgaveria <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/11/29 17:01:26 by lgaveria          #+#    #+#             */
-/*   Updated: 2017/11/29 18:57:09 by lgaveria         ###   ########.fr       */
+/*   Created: 2017/10/22 16:01:51 by lgaveria          #+#    #+#             */
+/*   Updated: 2017/10/22 17:45:17 by lgaveria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ASM_H
-# define ASM_H
-# include <stdlib.h>
-# include "op.h"
-# include "../../libftt/srcs/libft.h"
-
-typedef struct	s_champ
+int		ft_iswhitespace(char c)
 {
-	char		*name;
-	int			comment;
-}				t_champ;
-
-void			manage_header(int fd, char **input, t_champ *champ);
-void			free_tab(char **tab);
-
-/*
-** gestion d'erreur
-*/
-
-void	error(char *str);
-
-#endif
+	if (c == '\n')
+		return (1);
+	if (c == ' ')
+		return (1);
+	if (c == '\t')
+		return (1);
+	if (c == '\f')
+		return (1);
+	if (c == '\v')
+		return (1);
+	if (c == '\r')
+		return (1);
+	return (0);
+}
