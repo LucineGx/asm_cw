@@ -6,7 +6,7 @@
 #    By: ahouel <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 13:53:00 by ahouel            #+#    #+#              #
-#    Updated: 2017/11/29 18:02:01 by lgaveria         ###   ########.fr        #
+#    Updated: 2017/12/05 18:19:17 by lgaveria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,11 +19,13 @@ NAME = ../asm
 SRC_PATH = ./srcs/
 OBJ_PATH = ./obj/
 INC_PATH = ./includes/
-LIB_PATH = ../libftt/
+LIB_PATH = ../libft/
 
 SRC_FILES = main.c \
 			header.c \
-			error.c
+			error.c \
+			end_it.c \
+			coding_help.c
 
 INC_FILES = asm.h \
 			op.h
