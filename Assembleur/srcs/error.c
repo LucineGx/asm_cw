@@ -23,16 +23,18 @@ void	free_instructions(t_inst *lst)
 		free_instructions(lst->next);
 		lst->next = NULL;
 	}
-	if (lst->opcode)
-		free(lst->opcode);
-	if (lst->ocp)
-		free(lst->ocp);
-	if (lst->param_one)
-		free(lst->param_one);
-	if (lst->param_two)
-		free(lst->param_two);
-	if (lst->param_three)
-		free(lst->param_three);
+//	if (lst->opcode)
+//		free(lst->opcode);
+//	if (lst->ocp)
+//		free(lst->ocp);
+//	if (lst->param_one)
+//		free(lst->param_one);
+//	if (lst->param_two)
+//		free(lst->param_two);
+//	if (lst->param_three)
+//		free(lst->param_three);
+	if (lst->name)
+		free(lst->name);
 	free(lst);
 	lst = NULL;
 }
@@ -46,6 +48,8 @@ void	free_labs(t_lab *lab)
 	}
 	if (lab->lst)
 		free_instructions(lab->lst);
+	if (lab->name)
+		free(lab->name);
 	free(lab);
 	lab = NULL;
 }

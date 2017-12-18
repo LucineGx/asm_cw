@@ -13,8 +13,9 @@
 #ifndef ASM_H
 # define ASM_H
 # include <stdlib.h>
+# include <stdio.h> //
 # include "op.h"
-# include "../../libft/includes/libft.h"
+# include "../../libft/srcs/libft.h"
 
 typedef struct	s_inst
 {
@@ -61,5 +62,6 @@ void			free_champ(t_champ *champ);
 */
 
 void			print_tab(char **tab);
+void			print_lst(t_champ *champ);
 
 #endif

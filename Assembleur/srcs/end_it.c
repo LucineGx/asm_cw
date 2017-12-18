@@ -48,26 +48,20 @@ static void	write_header(int fd, t_champ *champ)
 	write(fd, &tmp, 4);
 	write(fd, (*champ).name, ft_strlen((*champ).name));
 	count = ft_strlen((*champ).name) + 3;
-	printf("[00] COUNT = %d\n", count + 1);
 	while ((++count) < PROG_NAME_LENGTH + 5)
 		write(fd, "\0", 1);
-	printf("[01] COUNT = %d\n", count);
 	while ((count++) % 4 != 0)
 		write(fd, "\0", 1);
-	printf("[02] COUNT = %d\n", count - 1);
 	//___prog_size pas encore gere___
 	tmp = 0;//tmp = (*champ).prog_size;
 	//ft_bswap(&tmp, 4);
 	write(fd, &tmp, 4);
 	write(fd, (*champ).com, ft_strlen((*champ).com));
 	count += ft_strlen((*champ).com) + 2;
-	printf("[03] COUNT = %d\n", count + 1);
 	while ((++count) && (tmp++) + ft_strlen((*champ).com) <= COMMENT_LENGTH)
 		write(fd, "\0", 1);
-	printf("[04] COUNT = %d\n", count);
 	while ((count++) % 4 != 0)
 		write(fd, "\0", 1);
-	printf("[05] COUNT = %d\n", count - 1);
 }
 
 void		end_it(t_champ *champ, char *file_name)

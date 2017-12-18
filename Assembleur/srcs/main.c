@@ -63,6 +63,7 @@ int				main(int argc, char **argv)
 		champ = init_champ(champ, input);
 		champ = manage_header(input, champ);
 		free_tab(input); // sera modifie
+		print_lst(champ); //
 		end_it(champ, argv[i]);
 		i++;
 	}
