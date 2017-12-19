@@ -6,7 +6,7 @@
 #    By: ahouel <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2017/11/15 13:53:00 by ahouel            #+#    #+#              #
-#    Updated: 2017/12/05 18:19:17 by lgaveria         ###   ########.fr        #
+#    Updated: 2017/12/19 18:02:30 by lgaveria         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,14 @@ LIB_PATH = ../libft/
 
 SRC_FILES = main.c \
 			header.c \
-			error.c \
+			clean_it.c \
 			end_it.c \
+			pars.c \
+			new_instruction.c \
+			new_label.c \
+			label_chars.c \
+			live.c \
+			itohex.c \
 			coding_help.c
 
 INC_FILES = asm.h \

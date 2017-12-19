@@ -6,7 +6,7 @@
 /*   By: lgaveria <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 16:56:27 by lgaveria          #+#    #+#             */
-/*   Updated: 2017/12/06 21:08:48 by lgaveria         ###   ########.fr       */
+/*   Updated: 2017/12/18 19:38:06 by lgaveria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,11 @@ static char		**read_champ(char *file_name)
 	return (ret);
 }
 
-static t_champ	*init_champ(t_champ *new, char **input)
-{
-	if (!(new = malloc(sizeof(t_champ))))
-		exit_free("unsuccessful malloc\n", NULL, input);
-	(*new).name = NULL;
-	(*new).com = NULL;
-	(*new).lab = NULL;
-	return (new);
-}
-
 int				main(int argc, char **argv)
 {
 	int		i;
 	char	**input;
-	t_champ	*champ;
+	t_champ	*pl;
 
 	i = 1;
 	if (argc < 2)
@@ -60,11 +50,12 @@ int				main(int argc, char **argv)
 		input = read_champ(argv[i]);
 		if (!input)
 			exit_free("invalid file\n", NULL, NULL);
-		champ = init_champ(champ, input);
-		champ = manage_header(input, champ);
+		if (!(pl = malloc(sizeof(t_champ))))
+			exit_free("unsuccessful malloc\n", NULL, input);
+		pl = manage_header(input, pl);
 		free_tab(input); // sera modifie
-		print_lst(champ); //
-		end_it(champ, argv[i]);
+		print_lst(pl); //
+		end_it(pl, argv[i]);
 		i++;
 	}
 	return (0);

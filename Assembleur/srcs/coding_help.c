@@ -17,7 +17,7 @@ void	print_lst(t_champ *champ)
 	t_lab	*labtmp;
 	t_inst	*insttmp;
 
-	printf("NAME = %s\n\t\t%s\n", champ->name, champ->com);
+	printf("NAME = %s\n\t\t%s\n", champ->head->prog_name, champ->head->comment);
 	printf("\n|label|\n");
 	labtmp = champ->lab;
 	while (labtmp)

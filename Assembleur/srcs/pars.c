@@ -6,93 +6,11 @@
 /*   By: lgaveria <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 19:56:42 by lgaveria          #+#    #+#             */
-/*   Updated: 2017/12/06 21:08:46 by lgaveria         ###   ########.fr       */
+/*   Updated: 2017/12/18 19:56:10 by lgaveria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/asm.h"
-
-static int		how_many_label_char(char *s)
-{
-	int		count;
-	int		i;
-	int		j;
-	char	*to_compare;
-
-	if (!s)
-		return (0);
-	count = 0;
-	i = 0;
-	to_compare = LABEL_CHARS;
-	while (s[i] && i == count)
-	{
-		j = -1;
-		while (to_compare[++j])
-			if (to_compare[j] == s[i])
-				count++;
-		i++;
-	}
-	if (s[i - 1] == LABEL_CHAR)
-		return (count);
-	else
-		return(0);
-}
-
-static t_champ	*new_label(char *name, t_champ *champ)
-{
-	t_lab	*new;
-	t_lab	*tmp;
-	int		i;
-
-	i = 0;
-	while (ft_iswhitespace(name[i]))
-		i++;
-	name = &(name[i]);
-	if (!(new = malloc(sizeof(t_lab))))
-		return (NULL); //ATTENTION
-	new->pc = 0;
-	new->name = ft_strsub(name, 0, how_many_label_char(name));
-	new->lst = NULL;
-	new->next = NULL;
-	tmp = (*champ).lab;
-	if (!tmp)
-		(*champ).lab = new;
-	else
-	{
-		while (tmp->next != NULL)
-			tmp = tmp->next;
-		tmp->next = new;
-	}
-	return (champ);
-}
-
-static t_champ	*new_instruction(char *name, t_champ *champ)
-{
-	t_inst	*new;
-	t_inst	*tmp;
-	t_lab	*current_lab;
-
-	if (!(new = malloc(sizeof(t_inst))))
-		return (NULL); //ATTENTION
-	new->size = 0;
-	new->name = ft_strdup(name);
-	new->next = NULL;
-	current_lab = (*champ).lab;
-	if (!current_lab)
-		current_lab = (new_label("origin_label", champ))->lab;
-	while (current_lab->next != NULL)
-		current_lab = current_lab->next;
-	tmp = current_lab->lst;
-	if (!tmp)
-		current_lab->lst = new;
-	else
-	{
-		while (tmp->next != NULL)
-			tmp = tmp->next;
-		tmp->next = new;
-	}
-	return (champ);
-}
 
 static char		**init_instruction_tab(void)
 {
@@ -120,11 +38,16 @@ static char		**init_instruction_tab(void)
 	return (tab);
 }
 
-/*
-** manque le free tab en dessous
-*/
+static t_champ	*select_fun(char *s, int i, t_champ *pl)
+{
+	t_champ	*(*funptr[15])(t_champ*, char*);
 
-static int		get_instruction(char *s, t_champ *champ)
+	funptr[0] = &make_live;
+	//a poursuivre
+	return (funptr[i](pl, s));
+}
+
+static int		get_instruction(char *s, t_champ *pl)
 {
 	char	**to_compare;
 	int		i;
@@ -135,20 +58,15 @@ static int		get_instruction(char *s, t_champ *champ)
 		i++;
 	s = &(s[i]);
 	to_compare = init_instruction_tab();
-	i = 0;
+	i = -1;
 	ret = 0;
-	while (to_compare[i] && ret == 0)
-	{
+	while (to_compare[++i] && ret == 0)
 		if (ft_strncmp(s, to_compare[i], ft_strlen(to_compare[i])) == 0)
-		{
-			if (s[ft_strlen(to_compare[i])] == ' ')
+			if (ft_iswhitespace(s[ft_strlen(to_compare[i])]))
 			{
-				champ = new_instruction(to_compare[i], champ);
+				select_fun(s, i, pl);
 				ret = 1;
 			}
-		}
-		i++;
-	}
 	free_tab(to_compare);
 	return (ret);
 }

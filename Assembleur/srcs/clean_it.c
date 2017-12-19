@@ -6,7 +6,7 @@
 /*   By: ahouel <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/16 11:18:49 by ahouel            #+#    #+#             */
-/*   Updated: 2017/12/06 19:15:04 by lgaveria         ###   ########.fr       */
+/*   Updated: 2017/12/18 19:56:19 by lgaveria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,16 @@ void	free_instructions(t_inst *lst)
 		free_instructions(lst->next);
 		lst->next = NULL;
 	}
-//	if (lst->opcode)
-//		free(lst->opcode);
-//	if (lst->ocp)
-//		free(lst->ocp);
-//	if (lst->param_one)
-//		free(lst->param_one);
-//	if (lst->param_two)
-//		free(lst->param_two);
-//	if (lst->param_three)
-//		free(lst->param_three);
+	if (lst->opcode)
+		free(lst->opcode);
+	if (lst->ocp)
+		free(lst->ocp);
+	if (lst->param_one)
+		free(lst->param_one);
+	if (lst->param_two)
+		free(lst->param_two);
+	if (lst->param_three)
+		free(lst->param_three);
 	if (lst->name)
 		free(lst->name);
 	free(lst);
@@ -56,12 +56,9 @@ void	free_labs(t_lab *lab)
 
 void	free_champ(t_champ *champ)
 {
-	if ((*champ).name)
-		free((*champ).name);
-	if ((*champ).com)
-		free((*champ).com);
-	if ((*champ).lab)
-		free_labs((*champ).lab);
+	if (champ->head)
+		free((champ->head));
+	champ->head = NULL;
 	free(champ);
 	champ = NULL;
 }
