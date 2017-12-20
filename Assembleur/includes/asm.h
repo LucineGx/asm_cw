@@ -15,13 +15,13 @@
 # include <stdlib.h>
 # include <stdio.h> //
 # include "op.h"
-# include "../../libft/includes/libft.h"
+# include "../../libft/srcs/libft.h"
 
 typedef struct	s_inst
 {
 	int				size;
 	char			*name;
-	char			*opcode;
+	char			opcode;
 	char			*ocp;
 	char			*param_one;
 	char			*param_two;

@@ -31,7 +31,8 @@ t_champ		*make_live(t_champ *champ, char *s)
 		return (champ); // a gerer
 	new = (new_instruction("live\0", &champ));
 	new->size = 5;
-	new->opcode = ft_strdup("0x01");
-	new->param_one = itohex(direct, 8);
+	new->opcode = 1;
+	new->param_one = itohex(direct, 4);
+	printf("opcode: |%x|\nocp: |%x|\nparam_one: 0x|%x| ou |%s|\n", new->opcode, new->ocp, new->param_one, new->param_one);
 	return (champ);
 }

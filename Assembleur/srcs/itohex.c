@@ -14,17 +14,15 @@
 
 char		*itohex(int n, int size)
 {
-	char			*hexabase;
 	char			*ret;
 	int				i;
 
-	hexabase = "0123456789abcdef";
 	if (!(ret = malloc(sizeof(char) * (size + 1))))
 		return (NULL);
 	ret[size] = '\0';
 	while (--size >= 0)
 	{
-		ret[size] = hexabase[n % 16];
+		ret[size] = n % 16;
 		n /= 16;
 	}
 	return (ret);

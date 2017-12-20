@@ -23,8 +23,6 @@ void	free_instructions(t_inst *lst)
 		free_instructions(lst->next);
 		lst->next = NULL;
 	}
-	if (lst->opcode)
-		free(lst->opcode);
 	if (lst->ocp)
 		free(lst->ocp);
 	if (lst->param_one)

@@ -12,6 +12,11 @@
 
 #include "../includes/asm.h"
 
+/*
+**	On ouvre et lit le fichier rentré en paramètre. Il est renvoyé sous forme de
+**	tableau qui est réalloué à chaque appelle de gnl.
+*/
+
 static char		**read_champ(char *file_name)
 {
 	char	**ret;
@@ -19,6 +24,8 @@ static char		**read_champ(char *file_name)
 	int		i;
 	int		gnl_ret;
 
+	if (ft_strncmp(&(file_name[ft_strlen(file_name) - 2]), ".s", 2) != 0)
+		exit_free("extension's file must be [.s]", NULL, NULL);
 	if ((fd = open(file_name, O_RDONLY)) == -1)
 		exit_free("invalid file\n", NULL, NULL);
 	if (!(ret = malloc(sizeof(char*) * 1)))
@@ -35,6 +42,13 @@ static char		**read_champ(char *file_name)
 	close(fd);
 	return (ret);
 }
+
+/*
+**	On boucle pour traiter un par un tous les fichiers envoyés : on le lit, on
+**	récupère les informations du header et on renvoit directement tout ça dans
+**	le parsing, qui renverrat la structure avec tout ce qui est nécessaire
+**	d'écrire dans le .cor.
+*/
 
 int				main(int argc, char **argv)
 {
@@ -55,7 +69,9 @@ int				main(int argc, char **argv)
 		pl = manage_header(input, pl);
 		free_tab(input); // sera modifie
 		print_lst(pl); //
+		write(1, "A\n", 2);
 		end_it(pl, argv[i]);
+		write(1, "B\n", 2);
 		i++;
 	}
 	return (0);
