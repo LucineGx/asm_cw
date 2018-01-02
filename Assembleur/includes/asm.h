@@ -22,10 +22,13 @@ typedef struct	s_inst
 	int				size;
 	char			*name;
 	char			opcode;
-	char			*ocp;
+	char			ocp;
 	char			*param_one;
+	int				size_one;
 	char			*param_two;
+	int				size_two;
 	char			*param_three;
+	int				size_three;
 	struct s_inst	*next;
 }				t_inst;
 

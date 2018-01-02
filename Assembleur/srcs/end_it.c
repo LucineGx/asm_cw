@@ -52,6 +52,19 @@ static int	create_cor_file(char *file_name, t_champ *pl)
 	return (fd);
 }
 
+static void	write_instruction(t_inst *lst, int fd)
+{
+	write(fd, &(lst->opcode), 1);
+	if (lst->ocp)
+		write(fd, &(lst->ocp), 1);
+	if (lst->param_one)
+		write(fd, lst->param_one, lst->size_one);
+	if (lst->param_two)
+		write(fd, lst->param_two, lst->size_two);
+	if (lst->param_one)
+		write(fd, lst->param_three, lst->size_three);
+}
+
 /*
 **	Ecriture du header puis des instructions encodées dans le fichier. D'abord
 **	l'opcode, puis l'ocp et enfin les parametres un par un.
@@ -62,22 +75,16 @@ void		end_it(t_champ *pl, char *file_name)
 	int		fd;
 	t_lab	*ltmp;
 	t_inst	*itmp;
-	char	*to_write;
 
 	fd = create_cor_file(file_name, pl);
-	ltmp = pl->lab;
+	ltmp = pl->lab->next;
 	while (ltmp)
 	{
 		itmp = ltmp->lst;
 		while(itmp)
 		{
-			write(fd, &(itmp->opcode), 1);
-			to_write = ft_strjoin_free(itmp->ocp, itmp->param_one, 0);
-			to_write = ft_strjoin_free(to_write, itmp->param_two, 1);
-			to_write = ft_strjoin_free(to_write, itmp->param_three, 1);
-			if (to_write)
-				write(fd, to_write, ft_strlen(to_write));
-			itmp = itmp->next;
+			write_instruction(itmp, fd);
+			itmp = itmp->next->next;
 		}
 		ltmp = ltmp->next;
 	}

@@ -1,4 +1,5 @@
 #include "libft.h"
+#include <stdio.h>
 
 char	*ft_strjoin_free(char *s1, char *s2, int f)
 {
