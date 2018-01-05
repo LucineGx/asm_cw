@@ -20,15 +20,16 @@
 typedef struct	s_inst
 {
 	int				size;
+	int				pc;
 	char			*name;
 	char			opcode;
 	char			ocp;
 	char			*param_one;
-	int				size_one;
+	int				size_one[2];
 	char			*param_two;
-	int				size_two;
+	int				size_two[2];
 	char			*param_three;
-	int				size_three;
+	int				size_three[2];
 	struct s_inst	*next;
 }				t_inst;
 
@@ -42,6 +43,7 @@ typedef struct	s_lab
 
 typedef struct	s_champ
 {
+	int			current_pc;
 	header_t	*head;
 	t_lab		*lab;
 }				t_champ;

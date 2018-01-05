@@ -33,6 +33,8 @@ t_champ		*make_live(t_champ *pl, char *s)
 	new->size = 5;
 	new->opcode = 1;
 	new->param_one = itohex(direct, 4);
-	new->size_one = 4;
+	new->size_one[0] = 4;
+	new->pc = pl->current_pc;
+	pl->current_pc += new->size;
 	return (pl);
 }
