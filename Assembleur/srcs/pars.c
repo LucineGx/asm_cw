@@ -6,7 +6,7 @@
 /*   By: lgaveria <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/06 19:56:42 by lgaveria          #+#    #+#             */
-/*   Updated: 2017/12/18 19:56:10 by lgaveria         ###   ########.fr       */
+/*   Updated: 2018/01/06 19:14:37 by lgaveria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,10 @@ static t_champ	*select_fun(char *s, int i, t_champ *pl)
 
 	funptr[0] = &make_live;
 	funptr[1] = NULL;
-	funptr[2] = NULL;
+	funptr[2] = &make_sti;
 	funptr[3] = NULL;
 	funptr[4] = NULL;
-	funptr[5] = NULL;
+	funptr[5] = &make_and;
 	funptr[6] = NULL;
 	funptr[7] = NULL;
 	funptr[8] = NULL;
@@ -139,5 +139,6 @@ t_champ			*do_parsing(t_champ *pl, char **input, int i)
 			}
 		}
 	}
+	pl = get_labels_params(pl);
 	return (pl);
 }

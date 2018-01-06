@@ -6,7 +6,7 @@
 /*   By: lgaveria <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/12/05 17:00:49 by lgaveria          #+#    #+#             */
-/*   Updated: 2017/12/18 19:37:46 by lgaveria         ###   ########.fr       */
+/*   Updated: 2018/01/06 17:38:51 by lgaveria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ static void	write_instruction(t_inst *lst, int fd)
 	if (lst->ocp)
 		write(fd, &(lst->ocp), 1);
 	if (lst->param_one)
-		write(fd, lst->param_one, lst->size_one);
+		write(fd, lst->param_one, lst->size_one[0]);
 	if (lst->param_two)
-		write(fd, lst->param_two, lst->size_two);
+		write(fd, lst->param_two, lst->size_two[0]);
 	if (lst->param_one)
-		write(fd, lst->param_three, lst->size_three);
+		write(fd, lst->param_three, lst->size_three[0]);
 }
 
 /*
@@ -77,14 +77,14 @@ void		end_it(t_champ *pl, char *file_name)
 	t_inst	*itmp;
 
 	fd = create_cor_file(file_name, pl);
-	ltmp = pl->lab->next;
+	ltmp = pl->lab;
 	while (ltmp)
 	{
 		itmp = ltmp->lst;
 		while(itmp)
 		{
 			write_instruction(itmp, fd);
-			itmp = itmp->next->next;
+			itmp = itmp->next;
 		}
 		ltmp = ltmp->next;
 	}

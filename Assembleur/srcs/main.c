@@ -6,7 +6,7 @@
 /*   By: lgaveria <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/29 16:56:27 by lgaveria          #+#    #+#             */
-/*   Updated: 2017/12/18 19:38:06 by lgaveria         ###   ########.fr       */
+/*   Updated: 2018/01/02 15:02:03 by lgaveria         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,14 +64,12 @@ int				main(int argc, char **argv)
 		input = read_champ(argv[i]);
 		if (!input)
 			exit_free("invalid file\n", NULL, NULL);
-		if (!(pl = malloc(sizeof(t_champ))))
+		if (!(pl = ft_memalloc(sizeof(t_champ))))
 			exit_free("unsuccessful malloc\n", NULL, input);
 		pl = manage_header(input, pl);
 		free_tab(input); // sera modifie
 		print_lst(pl); //
-		write(1, "A\n", 2);
 		end_it(pl, argv[i]);
-		write(1, "B\n", 2);
 		i++;
 	}
 	return (0);
